@@ -1,0 +1,93 @@
+body {
+  background: #f5f5f5;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.wallet-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  background: #f5f5f5;
+}
+
+.wallet-form-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 32px 32px 28px 32px;
+  width: 400px;
+  margin: 40px 0;
+}
+
+.wallet-form-container h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  color: #89455C;
+  font-weight: 700;
+}
+
+.wallet-form-container p {
+  text-align: center;
+  color: #444;
+  margin-bottom: 24px;
+  font-size: 1.08rem;
+}
+
+.wallet-form label {
+  display: block;
+  margin-bottom: 6px;
+  color: #89455C;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.wallet-form input {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1.5px solid #c7b7bb;
+  border-radius: 5px;
+  font-size: 1rem;
+  background: #faf7f8;
+  transition: border 0.2s;
+  box-sizing: border-box;
+}
+
+.wallet-form input:focus {
+  border: 1.5px solid #89455C;
+  outline: none;
+}
+
+.wallet-form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.wallet-form-row > div {
+  flex: 1 1 0;
+}
+
+.wallet-form .pay-btn {
+  display: block;
+  margin: 28px auto 0 auto;
+  width: 200px;
+  background: #89455C;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.wallet-form .pay-btn:hover {
+  background: #89455C;
+}

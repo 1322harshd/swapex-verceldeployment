@@ -1,0 +1,165 @@
+/* Main page layout for Add Product */
+.add-product-page {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 12px;
+  min-height: calc(100vh - 220px);
+}
+
+/* Two-column form layout */
+.add-product-form {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 28px;
+  align-items: start;
+  height: calc(100vh - 260px);
+}
+
+/* Image upload box on the left */
+.image-drop {
+  display: block;
+  width: 100%;
+  height: 320px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+/* Placeholder for image upload */
+.placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-weight: 600;
+}
+
+/* Plus icon in image upload */
+.plus {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: #f6f6f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin-bottom: 8px;
+  color: #6e2f4b;
+}
+
+/* Preview image styling */
+.preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Product details card on the right */
+.card {
+  border: 1px solid #eee;
+  background: #fff;
+  padding: 18px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+}
+
+.card h3 {
+  margin: 0 0 12px 0;
+  text-align: center;
+}
+
+/* Form field layout */
+.field {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* Field label styling */
+.label {
+  width: 160px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Input, textarea, select styling */
+.field input[type="text"],
+.field input[type="date"],
+.field input,
+.field textarea,
+.field select {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+}
+
+/* Small input fields */
+.small { max-width: 160px; }
+
+/* Action buttons at the bottom of the form */
+.page-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  align-items: center;
+  margin: 12px 0 24px;
+  align-self: end;
+}
+
+/* Button styling */
+.btn {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* Estimate button style */
+.btn.estimate {
+  background: #6e2f4b;
+  color: #fff;
+}
+
+/* Upload button style */
+.btn.upload {
+  background: #8a3b56;
+  color: #fff;
+}
+
+/* Hide visually-hidden elements (like file input) */
+.visually-hidden { display: none; }
+
+/* Responsive adjustments for mobile */
+@media (max-width: 900px) {
+  .add-product-form {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    height: auto;
+  }
+  .image-drop {
+    height: 260px;
+  }
+  .label { width: 130px; }
+  .page-actions {
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+  }
+  .page-actions .btn { width: auto; flex: 1; }
+}

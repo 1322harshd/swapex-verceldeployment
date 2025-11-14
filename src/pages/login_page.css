@@ -1,0 +1,221 @@
+/* Main layout for the login page */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #F5F5F5;
+}
+
+/* Centered content for the login form and title */
+.login-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  margin-top: 70px;
+}
+
+/* Page title styling */
+.login-content h1 {
+  font-size: 2.2em;
+  color: #2E1F6F;
+  text-align: center;
+  margin-bottom: 60px;
+  font-weight: 600;
+}
+
+/* Login form container */
+.login-form {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Each form group (label + input + error) */
+.form-group {
+  margin-bottom: 30px;
+}
+
+/* Label styling */
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #333;
+  font-size: 1em;
+}
+
+/* Input field styling */
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #F9F9F9;
+  border-radius: 8px;
+  font-size: 1em;
+  background-color: #F9F9F9; 
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Input focus effect */
+.form-group input:focus {
+  outline: none;
+  border-color: #2E1F6F;
+  background-color: #F9F9F9;
+  box-shadow: 0 0 0 3px rgba(46, 31, 111, 0.1);
+}
+
+/* Placeholder text color */
+.form-group input::placeholder {
+  color: #9CA3AF;
+}
+
+/* Login button styling */
+.btn {
+  width: 60%; 
+  max-width: 250px; 
+  padding: 12px 20px; 
+  background-color: #2E1F6F;
+  color: white;
+  border: none;
+  border-radius: 10px; 
+  font-size: 1em; 
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 20px auto; 
+  display: block; 
+  box-sizing: border-box;
+}
+
+/* Button hover  */
+.btn:hover {
+  background-color: #1E0F5F;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 31, 111, 0.3);
+}
+
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Forgot password link styling */
+.forgot-password {
+  display: block;
+  text-align: center;
+  color: #8B5A5A;
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  margin-top: 15px; 
+}
+
+.forgot-password:hover {
+  color: #2E1F6F;
+  text-decoration: underline;
+}
+
+/* Error and Success Messages */
+.form-group span {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+/* Responsive Design for tablets */
+@media screen and (max-width: 768px) {
+  .header .logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .login-content {
+    padding: 30px 15px; 
+    margin-top: 50px; 
+  }
+
+  .login-content h1 {
+    font-size: 1.8em;
+    margin-bottom: 40px;
+  }
+
+  .login-form {
+    margin: 0 15px;
+    max-width: 350px; 
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .btn {
+    width: 70%;
+    max-width: 220px; 
+    padding: 11px 18px;
+    font-size: 0.95em;
+  }
+}
+
+/* Responsive Design for mobile */
+@media screen and (max-width: 480px) {
+  .header .logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .login-content {
+    padding: 20px 10px; 
+    margin-top: 30px; 
+  }
+
+  .login-content h1 {
+    font-size: 1.6em;
+    margin-bottom: 30px;
+  }
+
+  .login-form {
+    max-width: 320px; 
+  }
+
+  .form-group input {
+    padding: 12px;
+    font-size: 0.95em; 
+  }
+
+  .btn {
+    width: 80%; 
+    max-width: 200px; 
+    padding: 10px 16px;
+    font-size: 0.9em;
+    margin: 15px auto;
+  }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 360px) {
+  .login-content {
+    padding: 15px 8px;
+  }
+
+  .login-form {
+    max-width: 280px;
+  }
+
+  .btn {
+    width: 85%; 
+    max-width: 180px;
+    padding: 9px 14px;
+    font-size: 0.85em;
+  }
+
+  .form-group input {
+    padding: 11px;
+  }
+}

@@ -1,0 +1,236 @@
+.product-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(20,20,20,0.04);
+  display: flex;
+  flex-direction: column;
+  height: auto; /* prevent forcing full column height */
+}
+
+.product-card.horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 18px;
+  gap: 18px;
+  max-width: 420px;
+  min-width: 320px;
+  width: 100%;
+}
+
+.thumb {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+}
+
+.thumb-horizontal {
+  flex: 0 0 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thumb-horizontal img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.no-img {
+  width: 110px;
+  height: 110px;
+  background: #f3f3f3;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 1rem;
+}
+
+.card-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.card-body-horizontal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.title {
+  font-size: 14px;
+  margin: 0;
+  color: #222;
+}
+
+.title-horizontal {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+.subtitle-horizontal {
+  font-size: 1rem;
+  color: #666;
+  margin: 6px 0 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  max-width: 220px;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.meta-row-horizontal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.price-horizontal {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #222;
+  background: #eaf0fa;
+  border-radius: 6px;
+  padding: 2px 10px;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+
+.condition-badge {
+  background: #6e2f4b;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+.condition-badge-horizontal {
+  background: #5a2a3a;
+  color: #fff;
+  border-radius: 16px;
+  padding: 6px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  text-align: center;
+  margin-top: 2px;
+  align-self: end;
+}
+
+.product-actions {
+  pointer-events: auto;
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 5px;
+  color: #999;
+  transition: color 0.2s ease;
+}
+
+.favorite-btn:hover {
+  color: #ff6b6b;
+}
+
+/* mobile tweaks */
+@media (max-width: 900px) {
+  .thumb { height: 130px; }
+  .title { font-size: 13px; }
+  .price { font-size: 16px; }
+  .condition-badge { padding: 6px 8px; font-size: 11px; }
+}
+
+@media (max-width: 700px) {
+  .product-card.horizontal {
+    flex-direction: column;
+    min-height: unset;
+  }
+  .thumb-horizontal {
+    width: 100%;
+    min-width: 0;
+    height: 140px;
+  }
+  .card-body-horizontal {
+    padding: 12px 10px 12px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .thumb { height: 110px; }
+  .title { font-size: 12px; }
+  .price { font-size: 15px; }
+  .thumb-horizontal {
+    height: 100px;
+  }
+  .title-horizontal {
+    font-size: 0.98rem;
+  }
+  .price-horizontal {
+    font-size: 1rem;
+  }
+  .condition-badge-horizontal {
+    font-size: 0.85em;
+    padding: 5px 10px;
+  }
+}

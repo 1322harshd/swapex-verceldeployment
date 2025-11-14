@@ -1,0 +1,312 @@
+/* Main layout for the favourite products page */
+.favourite-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+/* Container for the page content */
+.page-container {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 30px 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* List of favourite products */
+.products-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 30px;
+}
+
+/* Card for each favourite product */
+.product-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+  width: 100%;
+  height: 160px;
+  position: relative;
+}
+
+/* Card shadow on hover */
+.product-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Product image styling */
+.product-image {
+  flex-shrink: 0;
+  margin-right: 30px;
+  width: 120px;
+  height: 120px;
+}
+
+.product-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  display: block;
+}
+
+/* Placeholder for the missing images */
+.image-placeholder {
+  width: 120px;
+  height: 120px;
+  background-color: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Styles for product details and actions */
+.product-content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+}
+
+/* Product info section */
+.product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Product name styling */
+.product-name {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #333;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+/* Brand and model styling */
+.product-brand {
+  margin: 0 0 5px 0;
+  font-size: 0.95em;
+}
+
+.brand-label {
+  color: #333;
+  font-weight: bold;
+}
+
+.brand-value {
+  color: #333;
+  font-weight: bold;
+}
+
+.product-model {
+  margin: 0 0 8px 0;
+  font-size: 0.9em;
+  color: #666;
+  font-weight: normal;
+  min-height: 18px;
+}
+
+/* Product price styling */
+.product-price {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin: 8px 0 0 0;
+}
+
+/* Actions like view button */
+.product-actions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 100%;
+  margin-left: 20px;
+}
+
+/*  styling for the View button */
+.view-btn {
+  background-color: #89455C;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  font-size: 0.95em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.view-btn:hover {
+  background-color: #89455C;
+  transform: translateY(-1px);
+}
+
+.view-btn:active {
+  transform: translateY(0);
+}
+
+
+.empty-favourites {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.empty-favourites p {
+  font-size: 1.1em;
+  margin: 0;
+}
+
+/* Remove from favourites X button */
+.remove-fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 24px;
+  background: none;
+  color: #000000;
+  border: none;
+  font-size: 1.5em;
+  font-weight: 900;
+  font-family: 'Arial Black', Arial, sans-serif;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.remove-fav-btn:hover {
+  color: #000000;
+}
+
+.remove-fav-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.remove-fav-btn.top-right {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+}
+
+.soldout-label {
+  color: #89455C;
+  font-weight: bold;
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  background: white;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-size: 1em;
+  z-index: 2;
+}
+
+.soldout-label.below-cross {
+  position: absolute;
+  top: 40px;
+  right: 16px;
+  color: #89455C;
+  font-weight: bold;
+  background: white;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-size: 1em;
+  z-index: 2;
+}
+
+/* Responsive styles for tablets and mobile */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 15px 20px 30px;
+  }
+
+  .products-container {
+    padding-bottom: 20px;
+  }
+
+  .product-card {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .product-image {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .product-content {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+  }
+
+  .product-info {
+    margin-bottom: 15px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .product-actions {
+    margin-left: 0;
+    height: auto;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 10px 15px 25px;
+  }
+
+  .product-card {
+    padding: 15px;
+  }
+
+  .product-image img,
+  .image-placeholder {
+    width: 100px;
+    height: 100px;
+  }
+
+  .product-name {
+    font-size: 1em;
+  }
+
+  .view-btn {
+    padding: 8px 20px;
+    font-size: 0.9em;
+  }
+}

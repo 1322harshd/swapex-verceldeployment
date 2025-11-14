@@ -1,0 +1,114 @@
+.site-header {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* top row with logo on the left and avatar on the right */
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+}
+
+/* logo - no absolute positioning so nav lines up below it */
+.logo img{
+  position: static;
+  width: 250px;
+  height: auto;
+  display: block;
+  margin: 0 0 20px 0; 
+}
+
+/* ensure avatar sits on the right inside header-top */
+.user-icon{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+/* simple avatar/wallet placeholder on the right */
+.user-icon .avatar-placeholder{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
+  border-radius: 50%;
+  font-size: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  /* float removed so flex positioning works */
+}
+
+/* nav bar row */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #6e2f4b;
+  height: 50px;         /* Make the navbar shorter */
+  padding: 0 18px;
+}
+
+/* center the links and space them out */
+.nav-bar ul {
+  max-width: 1200px;
+  padding-left: 60px;
+  display: flex;
+  justify-content:start;
+  gap: 64px; /* spacing between items */
+  list-style: none;
+}
+
+/* link styling */
+.nav-bar li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 16px 8px;
+  display: block;
+}
+
+/* subtle hover */
+.nav-bar li a:hover{
+  background: rgba(255,255,255,0.06);
+  border-radius: 6px;
+}
+
+/* responsive tweak */
+@media (max-width: 600px) {
+  .nav-bar ul { gap: 18px; padding: 8px; }
+  .nav-bar li a { font-size: 16px; padding: 12px 6px; }
+  .logo img { width: 200px; }
+  .nav-bar{margin-top:0;}
+}
+
+/* wallet link */
+.wallet-link {
+  display: flex;
+  align-items: center;
+}
+
+/* wallet icon */
+.wallet-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+ 
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+  padding: 4px 40px 4px 4px ;
+  transition: box-shadow 0.2s;
+}
+
+/* wallet link hover */
+.wallet-link:hover .wallet-icon {
+  box-shadow: 0 2px 8px rgba(160,108,123,0.13);
+}
+
+.logo {
+  margin-bottom: 18px; /* Adjust px as needed */
+}

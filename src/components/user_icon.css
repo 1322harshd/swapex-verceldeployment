@@ -1,0 +1,38 @@
+.user-icon-container {
+  position: relative;
+  display: inline-block;
+}
+.user-icon-img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.user-icon-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  padding: 8px 0;
+  z-index: 100;
+  min-width: 160px;
+}
+.user-icon-menu-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 15px;
+  color: #2E1F6F;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.user-icon-menu-btn:hover {
+  background: #f3f3f3;
+}

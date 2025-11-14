@@ -1,0 +1,146 @@
+/* layout for all products page */
+.all-products-page {
+  display: flex;
+  gap: 24px;
+  padding: 20px;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #fff;
+  min-height: calc(100vh - 160px); 
+}
+
+.left-sidebar {
+  width: 180px;
+  background: #6e2f4b;
+  color: #fff;
+  border-radius: 6px;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+.left-sidebar.open {
+  display: block;
+}
+
+.products-main {
+  flex: 1;
+}
+
+.top-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.top-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-toggle {
+  display: none;
+  background: #6e2f4b;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
+.mobile-cats {
+  display: none;
+  margin: 8px 0 14px;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+.mobile-cat-btn {
+  background: #f2f2f2;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 18px;
+  margin-right: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.mobile-cat-btn.active {
+  background: #6e2f4b;
+  color: #fff;
+}
+
+
+.category-title {
+  margin: 18px 0 8px;
+  font-size: 20px;
+  color: #333;
+}
+
+/* grid for product cards */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+
+.loader,
+.empty {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+}
+
+/* responsive rules for tablets and mobile */
+@media (max-width: 900px) {
+  .all-products-page {
+    padding: 12px;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  
+  .left-sidebar {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 72px; 
+    bottom: 0;
+    width: 260px;
+    z-index: 60;
+    padding: 18px;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+  .left-sidebar.open { display: block; }
+
+  .sidebar-overlay {
+    position: fixed;
+    inset: 72px 0 0 0; 
+    background: rgba(0,0,0,0.35);
+    z-index: 55;
+  }
+
+  .products-main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .sidebar-toggle { display: inline-block; }
+
+  .mobile-cats { display: flex; }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .top-controls { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+
+@media (max-width: 480px) {
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .category-title { font-size: 18px; }
+}

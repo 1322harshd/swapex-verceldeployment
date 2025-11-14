@@ -1,0 +1,22 @@
+.sidebar-cats nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-cats nav li {
+  padding: 10px 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.sidebar-cats nav li:hover,
+.sidebar-cats nav li.active {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ensure sidebar content scrolls on small screens */
+@media (max-width: 900px) {
+  .sidebar-cats { height: calc(100vh - 140px); overflow-y: auto; }
+}

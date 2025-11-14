@@ -1,0 +1,192 @@
+/* Header styling for the My Products page */
+.myproduct-header {
+  background: #f5f5f5;
+  padding: 18px 0 0 32px;
+  font-size: 1.3rem;
+  color: #bdbdbd;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* Space below the navbar/header */
+.myproduct-navbar-space {
+  height: 56px;
+}
+
+/* Main content area for the products list */
+.myproduct-main {
+  min-height: 500px;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 32px 0;
+}
+
+/* Button to add a new product */
+.add-product-btn {
+  background: #89455C;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 36px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 24px 0 32px 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* Button hover effect */
+.add-product-btn:hover {
+  background: #89455C;
+}
+
+/* List of product cards */
+.myproduct-list {
+  width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Card for each product */
+.myproduct-card {
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 18px 18px 18px 18px;
+  gap: 18px;
+  min-height: 110px;
+  position: relative; 
+}
+
+/* Product image box */
+.myproduct-img-box {
+  width: 90px;
+  height: 90px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #faf7f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Product image styling */
+.myproduct-img-box img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+}
+
+/* Product info section */
+.myproduct-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
+  font-size: 1rem;
+  color: #222;
+  margin-top: 2px;
+}
+
+/* Product title styling */
+.myproduct-title {
+  font-size: 1.02rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+  color: #222;
+  white-space: pre-line;
+}
+
+/* Brand and model styling */
+.myproduct-brand,
+.myproduct-model {
+  font-size: 0.98rem;
+  color: #222;
+  margin-bottom: 2px;
+}
+
+.myproduct-brand span,
+.myproduct-model span {
+  color: #444;
+  font-weight: 400;
+}
+
+/* Product price styling */
+.myproduct-price {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #222;
+  margin-top: 4px;
+}
+
+/* View button container at the bottom right of the card */
+.myproduct-view {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  min-width: 70px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* View button styling */
+.view-btn {
+  background: #fff;
+  color: #89455C;
+  border: 1.5px solid #89455C;
+  font-size: 1.02rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 22px;
+  border-radius: 6px;
+  margin-left: 8px;
+  margin-bottom: 0;
+  transition: 
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(160,108,123,0.06);
+}
+
+/* View button hover and focus effect */
+.view-btn:hover, .view-btn:focus {
+  background: #89455C;
+  color: #fff;
+  border-color: #89455C;
+  box-shadow: 0 2px 8px rgba(160,108,123,0.13);
+  outline: none;
+}
+
+/* Sold out label */
+.soldout-label {
+  color: #89455C;
+  font-weight: bold;
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  background: white;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-size: 1em;
+  z-index: 2;
+}
+
+.myproduct-error {
+  color: #89455C;
+  margin: 24px 0;
+}
+
+.myproduct-empty {
+  color: #a06c7b;
+  margin: 24px 0;
+}
