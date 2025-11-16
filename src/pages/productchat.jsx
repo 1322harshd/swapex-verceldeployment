@@ -9,7 +9,11 @@ import axios from "axios";
 // UI includes chat bubbles, timestamps, and navigation
 
 const PRODUCTS_BASE = import.meta.env.VITE_API_PRODUCTS_URL || "http://127.0.0.1:8000";
-const CONVO_BASE = import.meta.env.VITE_API_CONVO_URL || "http://127.0.0.1:3000";
+// Fix CONVO_BASE to always use HTTPS in production
+const rawConvoBase = import.meta.env.VITE_API_CONVO_URL || "http://127.0.0.1:3000";
+const CONVO_BASE = rawConvoBase.startsWith('http') 
+  ? rawConvoBase 
+  : `https://${rawConvoBase}`;
 const PRODUCTS_API = `${PRODUCTS_BASE}/api/products/`;
 const CONVO_API = `${CONVO_BASE}/conversation`;
 

@@ -3,11 +3,17 @@ import axios from "axios";
 import Header from "../components/header";
 import Footer from "../components/Footer";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./AddProduct.css";
 
 const BASE = import.meta.env.VITE_API_PRODUCTS_URL || "http://127.0.0.1:8000";
 const API = `${BASE}/api/products/`;
-const CONVO_BASE = import.meta.env.VITE_API_CONVO_URL || "http://127.0.0.1:3000";
+
+// Fix CONVO_BASE to always use HTTPS in production
+const rawConvoBase = import.meta.env.VITE_API_CONVO_URL || "http://127.0.0.1:3000";
+const CONVO_BASE = rawConvoBase.startsWith('http') 
+  ? rawConvoBase 
+  : `https://${rawConvoBase}`;
 
 // Create separate axios instance for products backend  
 const productsAxios = axios.create({
@@ -26,6 +32,7 @@ productsAxios.interceptors.request.use((config) => {
 
 function ProductView() {
   const { productId } = useParams();
+  const navigate = useNavigate();
 
   // State for product fields 
   const [title, setTitle] = useState("");
@@ -62,6 +69,41 @@ function ProductView() {
       }
     }
     fetchProduct();
+  }, [productId]);
+
+  // load conversations for this product
+  useEffect(() => {
+    async function fetchConversations() {
+      setConvosLoading(true);
+      setConvosError(null);
+      try {
+        // Create axios instance for conversation backend
+        const conversationAxios = axios.create({
+          baseURL: CONVO_BASE,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        // Add token interceptor
+        conversationAxios.interceptors.request.use((config) => {
+          const token = localStorage.getItem("access_token");
+          if (token) config.headers.Authorization = `Bearer ${token}`;
+          return config;
+        });
+
+        const res = await conversationAxios.get(`/conversation?product=${productId}`);
+        setConvos(res.data || []);
+      } catch (err) {
+        console.error("Failed to load conversations:", err);
+        setConvosError("Failed to load conversations");
+      } finally {
+        setConvosLoading(false);
+      }
+    }
+    if (productId) {
+      fetchConversations();
+    }
   }, [productId]);
 
   // handle image file selection and preview
@@ -105,7 +147,6 @@ function ProductView() {
           },
         }
       );
-      setMsg(null);
       window.toast && window.toast.success('Product sent for admin approval!', { position: "top-center", autoClose: 2500 });
       // Optionally, refresh data or navigate away
     } catch (err) {
