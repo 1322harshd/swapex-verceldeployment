@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../axiosInstance';
 import { API_ENDPOINTS } from '../apiEndpoints';
 import './user_icon.css';
-import logo from '../assets/logo.png';
 
 // Get backend base URL from environment
 const BACKEND_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
@@ -85,15 +84,29 @@ function UserIcon() {
     }
   };
 
+  // Function to get the appropriate image source
+  const getImageSource = () => {
+    if (image) {
+      // User has a custom profile image
+      return `${BACKEND_BASE_URL}${image}`;
+    } else {
+      // No custom image, use default from backend
+      return `${BACKEND_BASE_URL}/media/profile_images/default.jpeg`;
+    }
+  };
+
   return (
     <div className="user-icon-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '120px', position: 'relative' }}>
       <img
-        src={image ? `${BACKEND_BASE_URL}${image}` : logo}
+        src={getImageSource()}
         alt="User Icon"
         className="user-icon-img"
         onClick={handleIconClick}
         style={{ cursor: 'pointer', borderRadius: '50%', width: '80px', height: '80px', objectFit: 'cover', display: 'block', margin: 'auto 0' }}
-        onError={e => { e.target.onerror = null; e.target.src = logo; }}
+        onError={e => { 
+          e.target.onerror = null; 
+          e.target.src = "/logo.png"; // Final fallback to local logo
+        }}
       />
       {menuOpen && (
         <div ref={menuRef} className="user-icon-menu" style={{ position: 'absolute', top: '100px', left: '50%', transform: 'translateX(-50%)', zIndex: 100 }}>
