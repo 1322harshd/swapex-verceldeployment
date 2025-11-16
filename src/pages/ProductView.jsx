@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import axios from "../axiosInstance";
+import axios from "axios";
 import Header from "../components/header";
 import Footer from "../components/Footer";
 import { useParams, useNavigate } from "react-router-dom";
@@ -8,7 +8,21 @@ import "./AddProduct.css";
 const BASE = import.meta.env.VITE_API_PRODUCTS_URL || "http://127.0.0.1:8000";
 const API = `${BASE}/api/products/`;
 const CONVO_BASE = import.meta.env.VITE_API_CONVO_URL || "http://127.0.0.1:3000";
-const CONVO_API = `${CONVO_BASE}/conversation`;
+
+// Create separate axios instance for products backend  
+const productsAxios = axios.create({
+  baseURL: BASE,
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
+
+// Add token interceptor
+productsAxios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access_token");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
 
 function ProductView() {
   const { productId } = useParams();
@@ -33,7 +47,7 @@ function ProductView() {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await axios.get(`${API}${productId}/`);
+        const res = await productsAxios.get(`/api/products/${productId}/`);
         const p = res.data;
         setTitle(p.title || "");
         setDescription(p.description || "");
@@ -82,13 +96,12 @@ function ProductView() {
 
     setSubmitting(true);
     try {
-      await axios.patch(
-        `${API}${productId}/custom-update/`,
+      await productsAxios.patch(
+        `/api/products/${productId}/custom-update/`,
         fd,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
         }
       );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import axios from "../axiosInstance";
+import axios from "axios";
 
 // productchat.jsx - Handles product-specific chat between users
 // Connects to product and conversation backend services
@@ -12,6 +12,31 @@ const PRODUCTS_BASE = import.meta.env.VITE_API_PRODUCTS_URL || "http://127.0.0.1
 const CONVO_BASE = import.meta.env.VITE_API_CONVO_URL || "http://127.0.0.1:3000";
 const PRODUCTS_API = `${PRODUCTS_BASE}/api/products/`;
 const CONVO_API = `${CONVO_BASE}/conversation`;
+
+// Create separate axios instance for chat backend
+const chatAxios = axios.create({
+  baseURL: CONVO_BASE,
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
+
+// Create separate axios instance for products backend  
+const productsAxios = axios.create({
+  baseURL: PRODUCTS_BASE,
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
+
+// Add token interceptor for both instances
+[chatAxios, productsAxios].forEach(instance => {
+  instance.interceptors.request.use((config) => {
+    const token = localStorage.getItem("access_token");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  });
+});
 
 function decodeToken(token) {
   try {
@@ -63,7 +88,7 @@ export default function ProductChat() {
         seller = normalizeId(maybeOwner);
       } else {
         try {
-          const resp = await axios.get(`${PRODUCTS_API}${id}/`);
+          const resp = await productsAxios.get(`/api/products/${id}/`);
           const product = resp.data;
           const maybeOwner = product.owner ?? product.seller ?? product.user ?? product.owner_id ?? null;
           seller = normalizeId(maybeOwner);
@@ -75,7 +100,7 @@ export default function ProductChat() {
       // 1) if convoId passed, load it and return
       if (passedConvoId) {
         try {
-          const resp = await axios.get(`${CONVO_API}/${passedConvoId}`);
+          const resp = await chatAxios.get(`/conversation/${passedConvoId}`);
           if (!mounted) return;
           const convo = resp.data;
           setConvoId(convo._id ?? convo.id);
@@ -106,7 +131,7 @@ export default function ProductChat() {
         const q = queryParts.length ? `?${queryParts.join("&")}` : "";
         console.debug("Looking up existing convo with query:", q);
         if (q) {
-          const listResp = await axios.get(`${CONVO_API}${q}`);
+          const listResp = await chatAxios.get(`/conversation${q}`);
           console.debug("Convo lookup result:", listResp.data);
           if (mounted && Array.isArray(listResp.data) && listResp.data.length) {
             const convo = listResp.data[0];
@@ -122,7 +147,7 @@ export default function ProductChat() {
 
       // 3) none found -> create (POST). backend upsert prevents duplicates/race.
       try {
-        const res = await axios.post(CONVO_API, { product: id, buyer, seller });
+        const res = await chatAxios.post('/conversation', { product: id, buyer, seller });
         if (!mounted) return;
         const convo = res.data;
         setConvoId(convo._id ?? convo.id);
@@ -154,7 +179,7 @@ export default function ProductChat() {
       const senderRaw = payload?.user_id ?? payload?.id ?? payload?.sub ?? null;
       const sender = normalizeId(senderRaw);
 
-      const res = await axios.post(`${CONVO_API}/${convoId}/message`, { sender, text });
+      const res = await chatAxios.post(`/conversation/${convoId}/message`, { sender, text });
       const updated = res.data;
       setMessages(updated.messages ?? []);
       setText("");
