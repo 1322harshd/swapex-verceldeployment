@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/header';
 import Footer from '../components/Footer';
 import './Myproduct.css';
-import axios from 'axios';
+import axios from '../axiosInstance';
+import { API_ENDPOINTS } from '../apiEndpoints';
 import { useNavigate } from 'react-router-dom';
 
 function MyProduct() {
@@ -20,7 +21,7 @@ function MyProduct() {
       try {
         // Get the user's products using access token
         const token = localStorage.getItem('access_token');
-        const res = await axios.get('http://127.0.0.1:8000/api/products/my/', {
+        const res = await axios.get(API_ENDPOINTS.MY_PRODUCTS, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setProducts(res.data);

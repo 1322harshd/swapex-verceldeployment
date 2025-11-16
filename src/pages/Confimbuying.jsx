@@ -34,7 +34,7 @@ function Confimbuying() {
 
       // Record sale using axios and centralized endpoint
       await axios.post(
-        API_ENDPOINTS.RECORD_SALE ?? 'http://127.0.0.1:8000/api/products/record-sale/',
+        API_ENDPOINTS.RECORD_SALE,
         { product_id: product.id, amount: String(amount) }
       ).then((res) => {
         toast.success(`Sale recorded: Transaction #${res.data.transaction_id}`);

@@ -14,6 +14,8 @@ export const API_ENDPOINTS = {
   WALLET_DEDUCT: `${API_BASE_URL}/wallet/deduct/`,
   WALLET_ADD: `${API_BASE_URL}/wallet/add/`,
   WALLET_BALANCE: `${API_BASE_URL}/wallet/`,
+  MY_PRODUCTS: `${API_BASE_URL}/products/my/`,
+  RECORD_SALE: `${API_BASE_URL}/products/record-sale/`,
 };
 
 // Usage example:
