@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { io } from "socket.io-client"; // Add this import
 
 // productchat.jsx - Handles product-specific chat between users
 // Connects to product and conversation backend services
@@ -65,6 +66,7 @@ export default function ProductChat() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [socket, setSocket] = useState(null); // Add socket state
   const messagesRef = useRef(null);
 
   // small helper to normalize owner/buyer values to plain id string
@@ -73,6 +75,36 @@ export default function ProductChat() {
     if (typeof val === "object") return val._id ?? val.id ?? null;
     return val;
   }
+
+  // Initialize socket connection
+  useEffect(() => {
+    const socketConnection = io(CONVO_BASE);
+    setSocket(socketConnection);
+
+    return () => {
+      socketConnection.close();
+    };
+  }, []);
+
+  // Join room when convoId is available
+  useEffect(() => {
+    if (socket && convoId) {
+      socket.emit("join_room", convoId);
+      console.log("Joined room:", convoId);
+    }
+  }, [socket, convoId]);
+
+  // Listen for real-time messages
+  useEffect(() => {
+    if (socket) {
+      socket.on("receive_message", (newMessage) => {
+        console.log("New message received:", newMessage);
+        setMessages((prev) => [...prev, newMessage]);
+      });
+
+      return () => socket.off("receive_message");
+    }
+  }, [socket]);
 
   useEffect(() => {
     let mounted = true;
@@ -174,18 +206,36 @@ export default function ProductChat() {
     }
   }, [messages]);
 
+  // Updated handleSend function to use socket
   async function handleSend() {
-    if (!text.trim() || !convoId) return;
+    if (!text.trim() || !convoId || !socket) return;
     setSending(true);
+    
     try {
       const token = localStorage.getItem("access_token");
       const payload = token ? decodeToken(token) : null;
       const senderRaw = payload?.user_id ?? payload?.id ?? payload?.sub ?? null;
       const sender = normalizeId(senderRaw);
 
-      const res = await chatAxios.post(`/conversation/${convoId}/message`, { sender, text });
-      const updated = res.data;
-      setMessages(updated.messages ?? []);
+      const messageData = {
+        conversationId: convoId,
+        message: {
+          sender,
+          text,
+          timestamp: new Date()
+        }
+      };
+
+      // Send via socket for real-time update
+      socket.emit("send_message", messageData);
+
+      // Also save to database via API (optional - your backend might handle this)
+      try {
+        await chatAxios.post(`/conversation/${convoId}/message`, { sender, text });
+      } catch (err) {
+        console.warn("API save failed, but socket message sent:", err);
+      }
+
       setText("");
     } catch (err) {
       console.error("Send failed", err);
@@ -217,55 +267,50 @@ export default function ProductChat() {
         </span>
       </header>
 
-      <main style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        <div
-          style={{
-            width: "100%",
-            maxWidth: 700,
-            minHeight: 600,
-            background: "#fff",
-            borderRadius: 18,
-            boxShadow: "0 4px 24px rgba(60,30,80,0.10)",
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-            margin: "32px 0 0 0"
-          }}
-        >
+      <main style={{ flex: 1, display: "flex", flexDirection: "column", maxWidth: 800, margin: "0 auto", width: "100%" }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#fff", borderRadius: "8px 8px 0 0", overflow: "hidden" }}>
           <div
             ref={messagesRef}
             style={{
               flex: 1,
-              padding: 28,
               overflowY: "auto",
-              background: "#f9f8fc",
-              borderBottom: "1px solid #eee",
-              fontSize: 17
+              padding: "20px 24px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 16,
+              minHeight: 400,
+              maxHeight: "60vh"
             }}
           >
             {loading ? (
-              <div style={{fontSize:18}}>Loading conversation…</div>
+              <div style={{ textAlign: "center", color: "#888", padding: 40 }}>
+                Loading conversation...
+              </div>
             ) : messages.length === 0 ? (
-              <div style={{ color: "#666", fontSize:17 }}>No messages yet — start the chat.</div>
+              <div style={{ textAlign: "center", color: "#888", padding: 40 }}>
+                No messages yet. Start the conversation!
+              </div>
             ) : (
               messages.map((m, i) => {
                 const token = localStorage.getItem("access_token");
                 const payload = token ? decodeToken(token) : null;
-                const me = normalizeId(payload?.user_id ?? payload?.id ?? payload?.sub ?? null);
-                const isMine = String(m.sender) === String(me);
+                const currentUserRaw = payload?.user_id ?? payload?.id ?? payload?.sub ?? null;
+                const currentUser = normalizeId(currentUserRaw);
+                const isMine = normalizeId(m.sender) === currentUser;
+
                 return (
                   <div
                     key={i}
                     style={{
                       display: "flex",
                       justifyContent: isMine ? "flex-end" : "flex-start",
-                      margin: "8px 0",
+                      marginBottom: 8
                     }}
                   >
                     <div
                       style={{
                         maxWidth: "70%",
-                        padding: "10px 16px",
+                        padding: "12px 16px",
                         borderRadius: 18,
                         background: isMine ? "#e9f5ff" : "#f1e6f7",
                         color: isMine ? "#222" : "#5a2d6e",
