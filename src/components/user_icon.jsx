@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../axiosInstance';
 import { API_ENDPOINTS } from '../apiEndpoints';
+import logo from '../assets/logo.png';
 import './user_icon.css';
 
 // Get backend base URL from environment
@@ -105,7 +106,7 @@ function UserIcon() {
         style={{ cursor: 'pointer', borderRadius: '50%', width: '80px', height: '80px', objectFit: 'cover', display: 'block', margin: 'auto 0' }}
         onError={e => { 
           e.target.onerror = null; 
-          e.target.src = "/logo.png"; // Final fallback to local logo
+          e.target.src = logo; // Final fallback to local logo
         }}
       />
       {menuOpen && (
