@@ -88,11 +88,15 @@ function UserIcon() {
   // Function to get the appropriate image source
   const getImageSource = () => {
     if (image) {
-      // User has a custom profile image
+      // Check if the image URL is already a complete URL (S3 or full URL)
+      if (image.startsWith('http://') || image.startsWith('https://')) {
+        return image;
+      }
+      // If it's a relative path, construct the full URL with backend base
       return `${BACKEND_BASE_URL}${image}`;
     } else {
-      // No custom image, use default from backend
-      return `${BACKEND_BASE_URL}/media/profile_images/default.jpeg`;
+      // No custom image, use S3 default image URL
+      return 'https://swapex-media-bucket.s3.ap-southeast-2.amazonaws.com/media/profile_images/default.jpeg';
     }
   };
 
