@@ -76,10 +76,22 @@ export default function ProductChat() {
     return val;
   }
 
-  // Initialize socket connection
+  // Initialize socket connection with better error handling
   useEffect(() => {
-    const socketConnection = io(CONVO_BASE);
+    const socketConnection = io(CONVO_BASE, {
+      withCredentials: true,
+      transports: ['websocket', 'polling'], // Try websocket first, fallback to polling
+    });
+    
     setSocket(socketConnection);
+
+    socketConnection.on('connect', () => {
+      console.log('Socket connected:', socketConnection.id);
+    });
+
+    socketConnection.on('connect_error', (error) => {
+      console.error('Socket connection error:', error);
+    });
 
     return () => {
       socketConnection.close();
