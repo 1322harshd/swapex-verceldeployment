@@ -73,7 +73,7 @@ export default function ProductChat() {
   function normalizeId(val) {
     if (!val && val !== 0) return null;
     if (typeof val === "object") return val._id ?? val.id ?? null;
-    return val;
+    return String(val); // Always return as string for consistent comparison
   }
 
   // Initialize socket connection with better error handling
@@ -301,7 +301,15 @@ export default function ProductChat() {
                 const payload = token ? decodeToken(token) : null;
                 const currentUserRaw = payload?.user_id ?? payload?.id ?? payload?.sub ?? null;
                 const currentUser = normalizeId(currentUserRaw);
-                const isMine = normalizeId(m.sender) === currentUser;
+                const messageSender = normalizeId(m.sender);
+                
+                // More robust comparison - handle both string and number types
+                const currentUserStr = String(currentUser || '');
+                const messageSenderStr = String(messageSender || '');
+                const isMine = currentUserStr && messageSenderStr && currentUserStr === messageSenderStr;
+
+                // Debug logging to check alignment logic
+                console.log("Message:", m.text, "Sender:", messageSender, "Current User:", currentUser, "Is Mine:", isMine, "Types:", typeof messageSender, typeof currentUser);
 
                 return (
                   <div
@@ -326,9 +334,9 @@ export default function ProductChat() {
                       }}
                     >
                       {m.text}
-                      {m.timestamp && (
+                      {(m.timestamp || m.createdAt) && (
                         <div style={{ fontSize: 11, color: "#888", marginTop: 4, textAlign: "right" }}>
-                          {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(m.timestamp || m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       )}
                     </div>
