@@ -218,7 +218,7 @@ export default function ProductChat() {
     }
   }, [messages]);
 
-  // Updated handleSend function to use socket
+  // Updated handleSend function to use only socket (backend handles DB storage)
   async function handleSend() {
     if (!text.trim() || !convoId || !socket) return;
     setSending(true);
@@ -238,15 +238,8 @@ export default function ProductChat() {
         }
       };
 
-      // Send via socket for real-time update
+      // Send only via socket - backend handles DB storage and broadcasting
       socket.emit("send_message", messageData);
-
-      // Also save to database via API (optional - your backend might handle this)
-      try {
-        await chatAxios.post(`/conversation/${convoId}/message`, { sender, text });
-      } catch (err) {
-        console.warn("API save failed, but socket message sent:", err);
-      }
 
       setText("");
     } catch (err) {
