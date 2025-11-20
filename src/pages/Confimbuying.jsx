@@ -16,6 +16,7 @@ function Confimbuying() {
   const [trustBadgeGiven, setTrustBadgeGiven] = useState(false);
   const [purchaseConfirmed, setPurchaseConfirmed] = useState(false);
   const [paymentProcessed, setPaymentProcessed] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // When user confirms purchase, show trust badge step
   const handleConfirmPurchase = () => {
@@ -38,6 +39,11 @@ function Confimbuying() {
         { product_id: product.id, amount: String(amount) }
       ).then((res) => {
         toast.success(`Sale recorded: Transaction #${res.data.transaction_id}`);
+        // Wait for toasts to be visible before allowing popup to close
+        setTimeout(() => {
+          // Auto-close popup after successful transaction
+          handleClosePopup();
+        }, 3000); // 3 second delay to show success messages
       }).catch((err) => {
         toast.error(err?.response?.data?.error || 'Failed to record sale.');
       });
@@ -48,6 +54,7 @@ function Confimbuying() {
 
   // Give trust badge to the seller, then process payment
   const handleGiveTrustBadge = async () => {
+    setIsProcessing(true);
     try {
       // Get the seller ID from product object
       const sellerId =
@@ -58,28 +65,49 @@ function Confimbuying() {
 
       if (!sellerId) {
         toast.error('Seller ID not found.');
+        setIsProcessing(false);
         return;
       }
 
       await axios.post(API_ENDPOINTS.GIVE_TRUST_BADGE, { rated_user: sellerId });
       setTrustBadgeGiven(true);
       toast.success('Trust badge given to seller successfully!');
+      
+      // Wait a moment for trust badge toast to show before processing payment
+      setTimeout(async () => {
+        await processWalletPayment();
+        setIsProcessing(false);
+      }, 1000);
     } catch (error) {
       setTrustBadgeGiven(true);
       toast.success('Trust badge given to seller successfully!');
+      
+      // Wait a moment for trust badge toast to show before processing payment
+      setTimeout(async () => {
+        await processWalletPayment();
+        setIsProcessing(false);
+      }, 1000);
     }
-    // Process payment after trust badge action
-    await processWalletPayment();
   };
 
   // Skip trust badge but still process payment
   const handleSkipTrustBadge = async () => {
+    setIsProcessing(true);
     toast.info('Trust badge skipped.');
-    await processWalletPayment();
+    
+    // Wait a moment for skip toast to show before processing payment
+    setTimeout(async () => {
+      await processWalletPayment();
+      setIsProcessing(false);
+    }, 1000);
   };
 
   // Close popup and go to the all products page
   const handleClosePopup = () => {
+    if (isProcessing) {
+      toast.warning('Please wait for the transaction to complete before closing.');
+      return;
+    }
     setShowPopup(false);
     // After purchase is confirmed and popup is closed
     navigate('/allproducts', { replace: true }); 
@@ -199,6 +227,16 @@ function Confimbuying() {
                   <div className="payment-icon">💳</div>
                   <h4>Payment Processed</h4>
                   <p>Amount ${Number(amount).toFixed(2)} has been deducted from your wallet.</p>
+                  <p><small>This popup will close automatically in a moment...</small></p>
+                </div>
+              )}
+
+              {/* Processing indicator */}
+              {isProcessing && !paymentProcessed && (
+                <div className="processing-indicator">
+                  <div className="processing-icon">⏳</div>
+                  <h4>Processing Transaction...</h4>
+                  <p>Please wait while we process your payment and record the sale.</p>
                 </div>
               )}
 
@@ -240,13 +278,21 @@ function Confimbuying() {
 
                   {/* Action buttons for skipping or giving trust badge */}
                   <div className="action-buttons">
-                    <button className="skip-btn" onClick={handleSkipTrustBadge}>
+                    <button 
+                      className="skip-btn" 
+                      onClick={handleSkipTrustBadge}
+                      disabled={isProcessing}
+                    >
                       <span className="btn-icon">→</span>
-                      Skip Trust Badge
+                      {isProcessing ? 'Processing...' : 'Skip Trust Badge'}
                     </button>
-                    <button className="trust-btn" onClick={handleGiveTrustBadge}>
+                    <button 
+                      className="trust-btn" 
+                      onClick={handleGiveTrustBadge}
+                      disabled={isProcessing}
+                    >
                       <span className="btn-icon">⭐</span>
-                      Give Trust Badge
+                      {isProcessing ? 'Processing...' : 'Give Trust Badge'}
                     </button>
                   </div>
                 </div>
