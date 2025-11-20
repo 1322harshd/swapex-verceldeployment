@@ -36,7 +36,8 @@ function Wallet() {
         const data = response.data;
         setWalletAmount(data.wallet_amount);
       } catch (error) {
-        setWalletAmount(null);
+        console.error('Wallet fetch error:', error);
+        setWalletAmount(0); // Default to 0 instead of null
       }
     };
     fetchWalletAmount();
@@ -83,13 +84,15 @@ function Wallet() {
         }
       });
 
-      const data = await response.json();
-      if (response.ok) {
+      // Use response.data for axios, not response.json()
+      const data = response.data;
+      if (response.status === 200 || response.status === 201) {
         toast.success(`Money added! New wallet balance: $${data.wallet_amount} if you want you can leave the page for further operations or add more funds.`);
         setForm({ ...form, amount: '' });
         setWalletAmount(data.wallet_amount); 
       }
     } catch (error) {
+      console.error('Wallet add error:', error);
       toast.error('Network error. Please try again.');
     }
     setLoading(false);
